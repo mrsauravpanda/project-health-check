@@ -1,7 +1,7 @@
 
 {
   "name": "project-health-check",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "CLI tool to audit JavaScript/TypeScript project health",
   "author": {
     "name": "Saurav Panda",

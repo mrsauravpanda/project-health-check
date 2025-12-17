@@ -151,7 +151,6 @@ Each check is isolated and easily extendable.
 * Pre‑merge quality gates
 * Auditing open‑source repos
 * Improving legacy projects
-* Portfolio demonstration of tooling skills
 
 ---
 
