@@ -146,16 +146,6 @@ Each check is isolated and easily extendable.
 
 ---
 
-## 🛣 Roadmap
-
-* 🔧 Config file support (`.healthcheckrc`)
-* 📄 JSON / Markdown report export
-* 🔄 Recursive large‑file scanning
-* 🧪 Deeper test framework detection
-* 🐙 GitHub Action template
-
----
-
 ## 👨‍💻 Ideal Use Cases
 
 * Pre‑merge quality gates
