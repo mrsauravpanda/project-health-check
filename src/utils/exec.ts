@@ -11,7 +11,34 @@ export function execJSON(cmd: string) {
     if (!ALLOWED_COMMANDS.includes(cmd)) {
       throw new Error('Command not allowed');
     }
-    const result = execSync(cmd, { stdio: "pipe", timeout: 30000 }).toString();
+    
+    // npm outdated returns exit code 1 when outdated packages exist, so we need to handle this
+    const options = { 
+      stdio: "pipe" as const, 
+      timeout: 30000,
+      encoding: "utf8" as const
+    };
+    
+    if (cmd === 'npm outdated --json') {
+      // For npm outdated, ignore exit code and capture output
+      try {
+        const result = execSync(cmd, options);
+        return JSON.parse(result);
+      } catch (error: any) {
+        // npm outdated returns exit code 1 when packages are outdated
+        if (error.status === 1 && error.stdout) {
+          try {
+            return JSON.parse(error.stdout);
+          } catch (parseError) {
+            console.warn(`JSON parsing failed for npm outdated output`);
+            return null;
+          }
+        }
+        throw error; // Re-throw if it's a different error
+      }
+    }
+    
+    const result = execSync(cmd, options);
     return JSON.parse(result);
   } catch (error: unknown) {
     if (error instanceof SyntaxError) {
