@@ -11,10 +11,23 @@ export const unusedDepsCheck = {
         return { id: "unused-deps", status: "fail", message: "Error analyzing dependencies", score: 0 };
       }
       
-      const count = Object.keys(res.dependencies).length;
-      return count === 0
-        ? { id: "unused-deps", status: "pass", message: "No unused dependencies", score: 15 }
-        : { id: "unused-deps", status: "warn", message: `${count} unused dependencies`, score: 7 };
+      const unusedDeps = Object.keys(res.dependencies);
+      const count = unusedDeps.length;
+      
+      if (count === 0) {
+        return { id: "unused-deps", status: "pass", message: "No unused dependencies", score: 15 };
+      }
+      
+      return {
+        id: "unused-deps",
+        status: "warn",
+        message: `📦 Unused dependencies: ${count}`,
+        score: 7,
+        detailed: {
+          items: unusedDeps,
+          suggestion: 'Remove unused packages with "npm uninstall <package>".'
+        }
+      };
     } catch (error) {
       return { id: "unused-deps", status: "fail", message: "Error checking unused dependencies", score: 0 };
     }

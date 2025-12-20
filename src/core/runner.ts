@@ -10,6 +10,25 @@ interface RunOptions {
 
 const HEALTH_THRESHOLD = 80;
 
+function displayDetailedResult(res: any) {
+  const icon = res.status === "pass" ? chalk.green("✔") :
+               res.status === "warn" ? chalk.yellow("⚠") :
+               chalk.red("✖");
+  
+  console.log(icon, res.message);
+  
+  if (res.detailed && res.status !== "pass") {
+    if (res.detailed.items) {
+      res.detailed.items.forEach((item: string) => {
+        console.log(`- ${item}`);
+      });
+    }
+    if (res.detailed.suggestion) {
+      console.log(`Suggestion: ${res.detailed.suggestion}`);
+    }
+  }
+}
+
 export async function runChecks(opts: RunOptions) {
   const spinner = opts.ci ? null : ora("Running health checks...").start();
   let total = 0;
@@ -22,10 +41,7 @@ export async function runChecks(opts: RunOptions) {
       earned += res.score;
 
       if (!opts.json) {
-        const icon = res.status === "pass" ? chalk.green("✔") :
-                     res.status === "warn" ? chalk.yellow("⚠") :
-                     chalk.red("✖");
-        console.log(icon, res.message);
+        displayDetailedResult(res);
       }
     } catch (error) {
       total += check.weight;

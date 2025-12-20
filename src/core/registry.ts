@@ -6,6 +6,7 @@ import { outdatedDepsCheck } from "../checks/outdated-deps.js";
 import { unusedDepsCheck } from "../checks/unused-deps.js";
 import { largeFilesCheck } from "../checks/large-files.js";
 import { scriptsCheck } from "../checks/scripts.js";
+import { vulnerabilitiesCheck } from "../checks/vulnerabilities.js";
 
 export const checks = [
   readmeCheck,
@@ -13,6 +14,7 @@ export const checks = [
   gitignoreCheck,
   testCheck,
   outdatedDepsCheck,
+  vulnerabilitiesCheck,
   unusedDepsCheck,
   largeFilesCheck,
   scriptsCheck
